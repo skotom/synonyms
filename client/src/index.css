@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-black text-white;
+}
+
+.blackInput {
+  @apply w-full rounded-lg border-2 border-white bg-black p-4 pl-12 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-gray-500;
+}
+
+.mainHolder {
+  display: flex;
+  gap: 8px;
+  padding: calc(11px) 16px;
+  cursor: text;
+  /* background: rgb(255, 255, 255); */
+  border: 1px solid rgb(217, 218, 221);
+  border-radius: 4px;
+}
+
+.tagHolder {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 0%;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: 4px;
+  padding: 0px 8px;
+  gap: 8px;
+  width: fit-content;
+  height: 24px;
+  color: rgb(63, 66, 80);
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(217, 218, 221);
+}
+
+.tagsInput {
+  display: flex;
+  flex: 1 1 0%;
+  font-size: 14px;
+  background: inherit;
+  color: rgb(63, 66, 80);
+  border: none;
+  outline: none;
+  height: 100%;
+}
+
+.outerHolder {
+  display: flex;
+  gap: 4px;
+  flex-flow: column;
+  align-items: normal;
+  justify-content: normal;
+}
