@@ -1,8 +1,13 @@
-export default function SynonymTag({ name, handleDelete }) {
+interface Props {
+  synonym: string;
+  handleDelete: (word: string) => void;
+}
+
+export default function SynonymTag({ synonym, handleDelete }: Props) {
   return (
     <span className="tag">
-      <span>{name}</span>
-      <button onClick={() => handleDelete(name)} className="tagReset">
+      <span>{synonym}</span>
+      <button onClick={() => handleDelete(synonym)} className="tagReset">
         x
       </button>
     </span>

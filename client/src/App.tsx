@@ -11,10 +11,11 @@ export default function App() {
   const [synonyms, setSynonyms] = useState<Word[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  const addNewSynonym = (word: string, synonyms: string[]) => {
+  const handleSubmit = (word: string, synonyms: string[]) => {
     if (!synonyms.length) {
       alert("no synonyms!");
     }
+
     fetch("http://localhost:3000/word/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,7 +46,7 @@ export default function App() {
       });
   };
 
-  const updateShowForm = () => {
+  const toggleShowForm = () => {
     setShowForm(!showForm);
   };
 
@@ -56,16 +57,20 @@ export default function App() {
       <Search
         showForm={showForm}
         search={search}
-        updateShowForm={updateShowForm}
+        toggleShowForm={toggleShowForm}
       />
-      {showForm && <SynonymForm updateSynonyms={addNewSynonym} />}
+      {showForm && <SynonymForm handleSubmit={handleSubmit} />}
       <div>
         {synonyms.map(({ word, synonyms }) => (
           <div key={word} className="flex justify-between">
             <div>{word}</div>
             <div>
               {synonyms.map((synonym) => (
-                <SynonymTag handleDelete={handleDelete} name={synonym} />
+                <SynonymTag
+                  key={synonym + "tag_result"}
+                  handleDelete={handleDelete}
+                  synonym={synonym}
+                />
               ))}
             </div>
           </div>

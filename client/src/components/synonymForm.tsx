@@ -1,32 +1,34 @@
 import { useState } from "react";
 import SynonymTag from "./synonymTag";
+interface Props {
+  handleSubmit: (word: string, synonyms: string[]) => void;
+}
 
-export default function SynonymForm({ updateSynonyms }) {
-  const [synonyms, setSynonyms] = useState([]);
+export default function SynonymForm({ handleSubmit }: Props) {
+  const [synonyms, setSynonyms] = useState<string[]>([]);
   const [word, setWord] = useState("");
 
-  const handleNewWord = (e) => {
-    setWord(e.target.value);
+  const handleNewWord = (e: React.FormEvent<HTMLInputElement>) => {
+    setWord(e.currentTarget.value);
   };
 
-  const handleNewTag = (e) => {
-    if (e.key === "Enter" || e.keyCode === 13) {
-      setSynonyms([...new Set([...synonyms, e.target.value])]);
-
-      e.target.value = "";
+  const handleNewTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setSynonyms([...new Set([...synonyms, e.currentTarget.value])]);
+      e.currentTarget.value = "";
     }
   };
 
-  const handleSave = (e) => {
+  const handleSave = () => {
     if (word != "") {
-      updateSynonyms(word, synonyms);
+      handleSubmit(word, synonyms);
       setSynonyms([]);
       setWord("");
     }
   };
 
-  const handleDelete = (name) => {
-    setSynonyms(synonyms.filter((synonym) => synonym != name));
+  const handleDelete = (word: string) => {
+    setSynonyms(synonyms.filter((synonym) => synonym != word));
   };
 
   return (
@@ -42,7 +44,11 @@ export default function SynonymForm({ updateSynonyms }) {
         <div className="tagHolder">
           {synonyms.map((tag) => {
             return (
-              <SynonymTag handleDelete={handleDelete} key={tag} name={tag} />
+              <SynonymTag
+                handleDelete={handleDelete}
+                key={tag + "_tag"}
+                synonym={tag}
+              />
             );
           })}
           <input

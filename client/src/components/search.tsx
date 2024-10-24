@@ -1,6 +1,12 @@
-export default function Search({ search, updateShowForm, showForm }) {
-  const handleSearch = (e) => {
-    search(e.target.value);
+interface Props {
+  search: (word: string) => void;
+  toggleShowForm: () => void;
+  showForm: boolean;
+}
+
+export default function Search({ search, toggleShowForm, showForm }: Props) {
+  const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    search(e.currentTarget.value);
   };
 
   return (
@@ -33,7 +39,7 @@ export default function Search({ search, updateShowForm, showForm }) {
         <button
           title="Add new word"
           className="text-2xl text-white border-rose hover:border-green-500 absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center rounded-full border-2 border-dotted border-rose-500 bg-black"
-          onClick={updateShowForm}
+          onClick={toggleShowForm}
         >
           {showForm ? "-" : "+"}
         </button>
