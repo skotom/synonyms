@@ -14,9 +14,7 @@ export default class WordService {
         (word) => (req.session.words[word] = mainIndex)
       );
 
-      console.log(`splicing ${groupIndex}, main is ${mainIndex}`);
       req.session.synonymGroups.splice(groupIndex, 1);
-      console.log(req.session.synonymGroups);
     }
   }
 
