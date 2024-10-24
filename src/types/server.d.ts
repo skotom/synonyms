@@ -2,6 +2,7 @@ import "express-session";
 
 declare module "express-session" {
   export interface SessionData {
-    synonyms: Graph<string>;
+    words: { [key: string]: number };
+    synonymGroups: Array<Array<string>>;
   }
 }

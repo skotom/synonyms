@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-function Synonym({ name }) {
+function Synonym({ name, handleDelete }) {
   return (
     <span className="tag">
       <span>{name}</span>
-      <button className="tagReset">x</button>
+      <button onClick={() => handleDelete(name)} className="tagReset">
+        x
+      </button>
     </span>
   );
 }
@@ -19,10 +21,6 @@ function SynonymForm({ updateSynonyms }) {
 
   const handleNewTag = (e) => {
     if (e.key === "Enter" || e.keyCode === 13) {
-      if (e.target.value == "") {
-        return;
-      }
-
       setSynonyms([...new Set([...synonyms, e.target.value])]);
 
       e.target.value = "";
@@ -33,6 +31,10 @@ function SynonymForm({ updateSynonyms }) {
     updateSynonyms(word, synonyms);
     setSynonyms([]);
     setWord("");
+  };
+
+  const handleDelete = (name) => {
+    setSynonyms(synonyms.filter((synonym) => synonym != name));
   };
 
   return (
@@ -47,7 +49,7 @@ function SynonymForm({ updateSynonyms }) {
       <div className="mainHolder blackInput">
         <div className="tagHolder">
           {synonyms.map((tag) => {
-            return <Synonym key={tag} name={tag} />;
+            return <Synonym handleDelete={handleDelete} key={tag} name={tag} />;
           })}
           <input
             id="synonymInput"
@@ -96,19 +98,13 @@ function SearchBar({ search, updateShowForm, showForm }) {
           onChange={handleSearch}
         />
 
-        <div
+        <button
           title="Add new word"
-          className="text-2xl text-white border-rose hover:border-green-500 absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center rounded-full border-2 border-dotted border-rose-500 bg-black cursor-pointer"
+          className="text-2xl text-white border-rose hover:border-green-500 absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center rounded-full border-2 border-dotted border-rose-500 bg-black"
           onClick={updateShowForm}
         >
           {showForm ? "-" : "+"}
-          {/* <button
-            title="Add new word"
-            className="text-2xl text-white"
-            onClick={updateShowForm}
-          >
-          </button> */}
-        </div>
+        </button>
       </div>
     </nav>
   );
@@ -123,20 +119,6 @@ export default function App() {
   const [synonyms, setSynonyms] = useState<Word[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  useEffect(() => {
-    getAll();
-  }, []);
-
-  const getAll = () => {
-    // fetch("http://localhost:3000/word/all", { credentials: "include" })
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     setSynonyms(data);
-    //   });
-  };
-
   const addNewSynonym = (word: string, synonyms: string[]) => {
     if (!synonyms.length) {
       alert("no synonyms!");
@@ -144,15 +126,11 @@ export default function App() {
     fetch("http://localhost:3000/word/save", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ word: word, synonyms: synonyms }),
+      body: JSON.stringify({ synonyms: [...synonyms, word] }),
       credentials: "include",
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then(() => {
-        getAll();
-      });
+    }).then((res) => {
+      return res.json();
+    });
   };
 
   const search = (word: string) => {
@@ -179,6 +157,8 @@ export default function App() {
     setShowForm(!showForm);
   };
 
+  const handleDelete = (e) => {};
+
   return (
     <main className="p-4">
       <SearchBar
@@ -191,7 +171,11 @@ export default function App() {
         {synonyms.map(({ word, synonyms }) => (
           <div key={word} className="flex justify-between">
             <div>{word}</div>
-            <div>{synonyms.join(",")}</div>
+            <div>
+              {synonyms.map((synonym) => (
+                <Synonym handleDelete={handleDelete} name={synonym} />
+              ))}
+            </div>
           </div>
         ))}
 
