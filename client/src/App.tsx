@@ -28,9 +28,11 @@ function SynonymForm({ updateSynonyms }) {
   };
 
   const handleSave = (e) => {
-    updateSynonyms(word, synonyms);
-    setSynonyms([]);
-    setWord("");
+    if (word != "") {
+      updateSynonyms(word, synonyms);
+      setSynonyms([]);
+      setWord("");
+    }
   };
 
   const handleDelete = (name) => {

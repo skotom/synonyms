@@ -65,8 +65,6 @@ export default class WordService {
         req.session.words[synonym] = index;
       });
     }
-
-    console.log(req.session);
   }
 
   static deleteWord(word, req: Request) {}
