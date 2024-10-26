@@ -5,13 +5,9 @@ export class WordController {
   static async save(req: Request, res: Response) {
     let synonyms = req.body.synonyms;
 
-    let data: any = {};
-
     WordService.updateSynonyms(synonyms, req);
 
-    data = { status: "OK" };
-
-    res.json(data);
+    res.json();
   }
 
   static async search(req: Request, res: Response) {

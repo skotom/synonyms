@@ -13,7 +13,7 @@ export default function App() {
 
   const handleSubmit = (word: string, synonyms: string[]) => {
     if (!synonyms.length) {
-      alert("no synonyms!");
+      return;
     }
 
     fetch("http://localhost:3000/word/save", {
