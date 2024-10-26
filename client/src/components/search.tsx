@@ -30,7 +30,7 @@ export default function Search({ search, toggleShowForm, showForm }: Props) {
         </div>
 
         <input
-          className="blackInput"
+          className="word-input"
           type="text"
           placeholder="Find word"
           onChange={handleSearch}
@@ -38,7 +38,7 @@ export default function Search({ search, toggleShowForm, showForm }: Props) {
 
         <button
           title="Add new word"
-          className="text-2xl text-white border-rose hover:border-green-500 absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center rounded-full border-2 border-dotted border-rose-500 bg-black"
+          className="round-button h-10 w-10 -translate-y-1/2 transform top-1/2 right-2 absolute text-2xl"
           onClick={toggleShowForm}
         >
           {showForm ? "-" : "+"}

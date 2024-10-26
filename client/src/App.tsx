@@ -60,11 +60,11 @@ export default function App() {
         toggleShowForm={toggleShowForm}
       />
       {showForm && <SynonymForm handleSubmit={handleSubmit} />}
-      <div>
+      <div className="p-4">
         {synonyms.map(({ word, synonyms }) => (
-          <div key={word} className="flex justify-between">
+          <div key={word} className="flex justify-normal pl-12 p-4 gap-2">
             <div>{word}</div>
-            <div>
+            <div className="flex justify-around gap-2">
               {synonyms.map((synonym) => (
                 <SynonymTag
                   key={synonym + "tag_result"}
@@ -76,7 +76,9 @@ export default function App() {
           </div>
         ))}
 
-        {!Object.keys(synonyms).length && <div>No data</div>}
+        {!Object.keys(synonyms).length && (
+          <div className="pl-12">No synonyms</div>
+        )}
       </div>
     </main>
   );

@@ -6,60 +6,26 @@ body {
   @apply bg-black text-white;
 }
 
-.blackInput {
-  @apply w-full rounded-lg border-2 border-white bg-black p-4 pl-12 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-gray-500;
+.word-input {
+  @apply w-full min-h-16 rounded-lg border border-white bg-black p-6 pl-12 pr-12 text-white focus-within:ring-2 focus-within:ring-gray-500 focus:outline-none;
 }
 
-.mainHolder {
-  display: flex;
-  gap: 8px;
-  padding: calc(11px) 16px;
-  cursor: text;
-  /* background: rgb(255, 255, 255); */
-  border: 1px solid rgb(217, 218, 221);
-  border-radius: 4px;
+.tag-holder {
+  @apply flex flex-wrap gap-2 items-center;
 }
 
-.tagHolder {
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  -webkit-box-align: center;
-  align-items: center;
-  gap: 8px;
-  flex: 1 1 0%;
+.tags-input {
+  @apply h-full bg-transparent border-none outline-none;
 }
 
 .tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  border-radius: 4px;
-  padding: 0px 8px;
-  gap: 8px;
-  width: fit-content;
-  height: 24px;
-  color: rgb(63, 66, 80);
-  background: rgb(255, 255, 255);
-  border: 1px solid rgb(217, 218, 221);
+  @apply flex justify-between items-center gap-2 pl-1 pr-1 rounded-lg border-2 h-6 bg-white text-black;
 }
 
-.tagsInput {
-  display: flex;
-  flex: 1 1 0%;
-  font-size: 14px;
-  background: inherit;
-  color: rgb(63, 66, 80);
-  border: none;
-  outline: none;
-  height: 100%;
+.input-label {
+  @apply absolute left-3 top-1 text-xs text-gray-500;
 }
 
-.outerHolder {
-  display: flex;
-  gap: 4px;
-  flex-flow: column;
-  align-items: normal;
-  justify-content: normal;
+.round-button {
+  @apply flex items-center justify-center hover:border-green-500  rounded-full border-2 border-rose-500 text-white bg-black;
 }
