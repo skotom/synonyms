@@ -1,3 +1,5 @@
+const apiUrl = import.meta.env.VITE_API_URL;
+
 import SynonymGroup from "../types/synoynmGroup";
 
 interface Props {
@@ -13,7 +15,7 @@ export default function Search({
 }: Props) {
   const find = (e: React.FormEvent<HTMLInputElement>) => {
     fetch(
-      "http://localhost:3000/word/search?" +
+      `${apiUrl}/word/search?` +
         new URLSearchParams({ searchTerm: e.currentTarget.value }).toString(),
       {
         credentials: "include",

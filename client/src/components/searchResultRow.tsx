@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SynonymTag from "./synonymTag";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
   word: string;
@@ -12,7 +13,7 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
 
   const handleDelete = (word: string) => {
     fetch(
-      "http://localhost:3000/word/delete?" +
+      `${apiUrl}/word/delete?` +
         new URLSearchParams({ wordToDelete: word }).toString(),
       {
         method: "DELETE",

@@ -37,6 +37,7 @@ export default function App() {
       <div className="p-4">
         {synonyms.map(({ word, synonyms }) => (
           <SearchResultRow
+            key={`${word}_row`}
             word={word}
             synonyms={synonyms}
             removeWord={removeWord}

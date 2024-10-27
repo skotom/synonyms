@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SynonymTag from "./synonymTag";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function SynonymForm() {
   const [synonyms, setSynonyms] = useState<string[]>([]);
@@ -10,7 +11,7 @@ export default function SynonymForm() {
       return;
     }
 
-    fetch("http://localhost:3000/word/save", {
+    fetch(`${apiUrl}/word/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ synonyms: [...synonyms, word] }),
