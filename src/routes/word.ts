@@ -5,5 +5,6 @@ const wordRouter: Router = express.Router();
 
 wordRouter.post("/save", WordController.save);
 wordRouter.get("/search", WordController.search);
+wordRouter.delete("/delete", WordController.delete);
 
 export default wordRouter;

@@ -1,12 +1,26 @@
 import { useState } from "react";
 import SynonymTag from "./synonymTag";
-interface Props {
-  handleSubmit: (word: string, synonyms: string[]) => void;
-}
 
-export default function SynonymForm({ handleSubmit }: Props) {
+export default function SynonymForm() {
   const [synonyms, setSynonyms] = useState<string[]>([]);
   const [word, setWord] = useState("");
+
+  const handleSubmit = (word: string, synonyms: string[]) => {
+    if (!synonyms.length) {
+      return;
+    }
+
+    fetch("http://localhost:3000/word/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ synonyms: [...synonyms, word] }),
+      credentials: "include",
+    }).then((res) => {
+      if (res.status !== 200) {
+        alert("Error no!");
+      }
+    });
+  };
 
   const handleNewWord = (e: React.FormEvent<HTMLInputElement>) => {
     setWord(e.currentTarget.value);

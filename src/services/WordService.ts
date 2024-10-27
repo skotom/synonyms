@@ -1,20 +1,22 @@
 import { Request } from "express";
+import { v4 as uuidv4 } from "uuid";
 export default class WordService {
-  static mergeGroups(groupIndexes: number[], req: Request) {
-    const mainIndex = groupIndexes[0];
+  static mergeGroups(groupKeys: string[], req: Request) {
+    const mainKey = groupKeys[0];
 
-    for (let i = 1; i < groupIndexes.length; i++) {
-      const groupIndex = groupIndexes[i];
+    for (let i = 1; i < groupKeys.length; i++) {
+      const groupKey = groupKeys[i];
 
-      req.session.synonymGroups[mainIndex] = req.session.synonymGroups[
-        mainIndex
-      ].concat(req.session.synonymGroups[groupIndex]);
+      req.session.synonymGroups[mainKey] = req.session.synonymGroups[
+        mainKey
+      ].concat(req.session.synonymGroups[groupKey]);
 
-      req.session.synonymGroups[groupIndex].forEach(
-        (word) => (req.session.words[word] = mainIndex)
+      req.session.synonymGroups[groupKey].forEach(
+        (word) => (req.session.words[word] = mainKey)
       );
 
-      req.session.synonymGroups.splice(groupIndex, 1);
+      // move this to delete function
+      delete req.session.synonymGroups[groupKey];
     }
   }
 
@@ -34,17 +36,17 @@ export default class WordService {
       }
     }
 
-    const synonymGroupIndexes = [
+    const synonymGroupKeys = [
       ...new Set(oldSynonyms.map((synonym) => req.session.words[synonym])),
     ];
 
-    if (synonymGroupIndexes.length > 1) {
-      WordService.mergeGroups(synonymGroupIndexes, req);
+    if (synonymGroupKeys.length > 1) {
+      WordService.mergeGroups(synonymGroupKeys, req);
     }
 
-    if (synonymGroupIndexes.length > 0) {
+    if (synonymGroupKeys.length > 0) {
       // add to existing synonym group
-      const index = synonymGroupIndexes[0];
+      const index = synonymGroupKeys[0];
 
       newSynonyms.forEach((synonym) => {
         req.session.words[synonym] = index;
@@ -53,19 +55,32 @@ export default class WordService {
     } else if (newSynonyms.length > 0) {
       // create new synonym group
       if (!req.session.synonymGroups) {
-        req.session.synonymGroups = [];
+        req.session.synonymGroups = {};
       }
 
-      const index = req.session.synonymGroups.length;
-      req.session.synonymGroups.push([...new Set(newSynonyms)]);
+      const randomKey = uuidv4();
+      req.session.synonymGroups[randomKey] = [...new Set(newSynonyms)];
 
       newSynonyms.forEach((synonym) => {
-        req.session.words[synonym] = index;
+        req.session.words[synonym] = randomKey;
       });
     }
   }
 
-  static deleteWord(word, req: Request) {}
+  static deleteWord(word, req: Request) {
+    const groupKey = req.session.words[word];
+    const synonyms = req.session.synonymGroups[groupKey];
+
+    req.session.synonymGroups[groupKey] = synonyms.filter(
+      (synonym) => synonym != word
+    );
+
+    if (req.session.synonymGroups[groupKey].length == 0) {
+      delete req.session.synonymGroups[groupKey];
+    }
+
+    delete req.session.words[word];
+  }
 
   static getSynonymsForWord = (word: string, req: Request) => {
     return {

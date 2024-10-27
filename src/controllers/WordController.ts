@@ -11,7 +11,7 @@ export class WordController {
   }
 
   static async search(req: Request, res: Response) {
-    const searchTerm = req.query.word as string;
+    const searchTerm = req.query.searchTerm as string;
 
     const data = WordService.search(searchTerm, req);
 
@@ -19,13 +19,10 @@ export class WordController {
   }
 
   static async delete(req: Request, res: Response) {
-    let data: any = {};
-
-    const wordToDelete = req.body.wordToDelete;
-    const word = req.body.word;
+    const wordToDelete = req.query.wordToDelete as string;
 
     WordService.deleteWord(wordToDelete, req);
 
-    res.json(data);
+    res.json();
   }
 }

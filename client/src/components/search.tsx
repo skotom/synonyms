@@ -1,12 +1,30 @@
+import SynonymGroup from "../types/synoynmGroup";
+
 interface Props {
-  search: (word: string) => void;
+  handleSearch: (data: SynonymGroup[]) => void;
   toggleShowForm: () => void;
   showForm: boolean;
 }
 
-export default function Search({ search, toggleShowForm, showForm }: Props) {
-  const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
-    search(e.currentTarget.value);
+export default function Search({
+  handleSearch,
+  toggleShowForm,
+  showForm,
+}: Props) {
+  const find = (e: React.FormEvent<HTMLInputElement>) => {
+    fetch(
+      "http://localhost:3000/word/search?" +
+        new URLSearchParams({ searchTerm: e.currentTarget.value }).toString(),
+      {
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        handleSearch(data);
+      });
   };
 
   return (
@@ -33,7 +51,7 @@ export default function Search({ search, toggleShowForm, showForm }: Props) {
           className="word-input"
           type="text"
           placeholder="Find word"
-          onChange={handleSearch}
+          onChange={find}
         />
 
         <button

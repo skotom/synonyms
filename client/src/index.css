@@ -19,7 +19,7 @@ body {
 }
 
 .tag {
-  @apply flex justify-between items-center gap-2 pl-1 pr-1 rounded-lg border-2 h-6 bg-white text-black;
+  @apply flex justify-between items-center gap-2 pl-1 pr-1 rounded-lg border-2 h-6 text-black;
 }
 
 .input-label {
