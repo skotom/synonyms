@@ -15,7 +15,6 @@ export default class WordService {
         (word) => (req.session.words[word] = mainKey)
       );
 
-      // move this to delete function
       delete req.session.synonymGroups[groupKey];
     }
   }
