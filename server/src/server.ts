@@ -1,9 +1,9 @@
-import express, { Application, Request, Response, NextFunction } from "express";
-import bodyParser from "body-parser";
+import express, { Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import session from "express-session";
 import { v4 as uuidv4 } from "uuid";
+
 dotenv.config();
 
 import { config } from "./config/config";
@@ -22,8 +22,8 @@ app.use(
   })
 );
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: config.corsWhiteList, credentials: true }));
 
 app.use("/", router);
