@@ -33,7 +33,7 @@ export default function App() {
         handleSearch={handleSearch}
         toggleShowForm={toggleShowForm}
       />
-      {showForm && <SynonymForm />}
+      {showForm && <SynonymForm toggleShowForm={toggleShowForm} />}
       <div className="p-4">
         {synonyms.map(({ word, synonyms }) => (
           <SearchResultRow

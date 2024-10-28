@@ -33,7 +33,7 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
   };
 
   return (
-    <div key={word} className="flex justify-normal pl-12 p-4 gap-2">
+    <div key={word} className="flex flex-wrap justify-normal pl-12 p-4 gap-2">
       <SynonymTag
         key={word + "tag_result"}
         handleDelete={handleDelete}

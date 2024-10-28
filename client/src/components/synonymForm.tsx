@@ -2,7 +2,10 @@ import { useState } from "react";
 import SynonymTag from "./synonymTag";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export default function SynonymForm() {
+interface Props {
+  toggleShowForm: () => void;
+}
+export default function SynonymForm({ toggleShowForm }: Props) {
   const [synonyms, setSynonyms] = useState<string[]>([]);
   const [word, setWord] = useState("");
 
@@ -19,6 +22,8 @@ export default function SynonymForm() {
     }).then((res) => {
       if (res.status !== 200) {
         alert("Error no!");
+      } else {
+        toggleShowForm();
       }
     });
   };
@@ -30,7 +35,11 @@ export default function SynonymForm() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const newTag = e.currentTarget.value;
 
-    if (["Enter", " "].includes(e.key)) {
+    if (e.key === "Enter") {
+      handleSave();
+    }
+
+    if (e.key === " ") {
       e.preventDefault();
 
       if (!synonyms.includes(newTag) && newTag.trim() !== "") {
@@ -62,7 +71,7 @@ export default function SynonymForm() {
   };
 
   const handleSave = () => {
-    if (word != "") {
+    if (word != "" && !!synonyms.length) {
       handleSubmit(word, synonyms);
       setSynonyms([]);
       setWord("");
