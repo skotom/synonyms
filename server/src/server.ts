@@ -24,25 +24,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const whitelist = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "https://synonyms.synctunes.fun",
-];
-
-app.use(
-  cors({
-    credentials: true,
-    origin: function (origin: string | undefined, callback: any) {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-);
+app.use(cors({ origin: config.corsWhiteList, credentials: true }));
 
 app.use("/", router);
 

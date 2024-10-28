@@ -9,4 +9,5 @@ export const config = {
   env: env,
   port: port,
   secret: process.env.SECRET,
+  corsWhiteList: process.env.CORS_WHITELIST,
 };
