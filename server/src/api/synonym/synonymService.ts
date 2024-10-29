@@ -153,7 +153,6 @@ class SynonymService {
   ): ServiceResponse<SynonymGroup[] | null> {
     try {
       const synonymGroups = this.getSynonymGroupsBySearchTerm(searchTerm, req);
-      console.log(synonymGroups);
       return ServiceResponse.success("Found synonyms", synonymGroups);
     } catch (ex) {
       const errorMessage = `Error finding synonyms for ${searchTerm}:, ${
