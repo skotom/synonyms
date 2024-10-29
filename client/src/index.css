@@ -7,7 +7,7 @@ body {
 }
 
 .word-input {
-  @apply w-full min-h-16 rounded-lg border border-white bg-black p-6 pl-12 pr-12 text-white focus-within:ring-2 focus-within:ring-gray-500 focus:outline-none;
+  @apply w-full min-h-20 rounded-lg border border-white bg-black p-6 pl-12 pr-12 text-white focus-within:ring-2 focus-within:ring-gray-500 focus:outline-none;
 }
 
 .tag-holder {
