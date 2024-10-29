@@ -1,3 +1,5 @@
+import CloseIcon from "./closeIcon";
+
 interface Props {
   synonym: string;
   handleDelete: (word: string) => void;
@@ -9,7 +11,7 @@ export default function SynonymTag({ synonym, handleDelete, isMain }: Props) {
     <span className={`tag ${isMain ? "bg-yellow-400" : "bg-white"}`}>
       <span>{synonym}</span>
       <button className="round-button w-5 h-5 text-xs hover:bg-slate-900" onClick={() => handleDelete(synonym)}>
-        x
+        <CloseIcon />
       </button>
     </span>
   );

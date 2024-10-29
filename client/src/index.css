@@ -29,3 +29,7 @@ body {
 .round-button {
   @apply flex items-center justify-center hover:border-green-500  rounded-full border-2 border-rose-500 text-white bg-black;
 }
+
+.find-button {
+  @apply hover:text-green-500 text-rose-500 h-full;
+}
