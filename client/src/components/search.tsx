@@ -25,7 +25,7 @@ export default function Search({
         return res.json();
       })
       .then((data) => {
-        handleSearch(data);
+        handleSearch(data.responseObject);
       });
   };
 

@@ -14,7 +14,7 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
   const handleDelete = (word: string) => {
     fetch(
       `${apiUrl}/synonym/delete?` +
-        new URLSearchParams({ wordToDelete: word }).toString(),
+        new URLSearchParams({ synonym: word }).toString(),
       {
         method: "DELETE",
         credentials: "include",
