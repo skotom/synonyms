@@ -20,7 +20,7 @@ app.use(
     secret: env.SECRET,
     resave: false,
     saveUninitialized: true,
-  })
+  }),
 );
 
 app.use(express.json());

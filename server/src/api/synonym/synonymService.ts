@@ -65,14 +65,12 @@ class SynonymService {
       }
       return ServiceResponse.success("Added new synonyms", null);
     } catch (ex) {
-      const errorMessage = `Error adding new synonyms:, ${
-        (ex as Error).message
-      }`;
+      const errorMessage = `Error adding new synonyms:, ${(ex as Error).message}`;
       logger.error(errorMessage);
       return ServiceResponse.failure(
         "An error occurred while adding new synonyms.",
         null,
-        StatusCodes.INTERNAL_SERVER_ERROR
+        StatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
   }
@@ -88,14 +86,12 @@ class SynonymService {
       const groupKey = groupKeys[i];
 
       // merge to main group
-      req.session.synonymGroups[mainKey] = req.session.synonymGroups[
-        mainKey
-      ].concat(req.session.synonymGroups[groupKey]);
+      req.session.synonymGroups[mainKey] = req.session.synonymGroups[mainKey].concat(
+        req.session.synonymGroups[groupKey],
+      );
 
       // update group pointers in words object
-      req.session.synonymGroups[groupKey].forEach(
-        (word) => (req.session.words![word] = mainKey)
-      );
+      req.session.synonymGroups[groupKey].forEach((word) => (req.session.words![word] = mainKey));
 
       // after we merge into main group we remove the old group
       delete req.session.synonymGroups[groupKey];
@@ -104,27 +100,15 @@ class SynonymService {
 
   public deleteSynonym(synonym: string, req: Request): ServiceResponse {
     try {
-      if (
-        !req.session?.words ||
-        !req.session?.synonymGroups ||
-        !req.session.words[synonym]
-      ) {
-        return ServiceResponse.failure(
-          "Synonym not found",
-          null,
-          StatusCodes.NOT_FOUND
-        );
+      if (!req.session?.words || !req.session?.synonymGroups || !req.session.words[synonym]) {
+        return ServiceResponse.failure("Synonym not found", null, StatusCodes.NOT_FOUND);
       }
 
       const groupKey = req.session.words[synonym];
 
-      const synonyms = req.session?.synonymGroups
-        ? req.session.synonymGroups[groupKey]
-        : [];
+      const synonyms = req.session?.synonymGroups ? req.session.synonymGroups[groupKey] : [];
 
-      req.session.synonymGroups[groupKey] = synonyms.filter(
-        (s) => s != synonym
-      );
+      req.session.synonymGroups[groupKey] = synonyms.filter((s) => s != synonym);
 
       delete req.session.words[synonym];
 
@@ -135,42 +119,32 @@ class SynonymService {
 
       return ServiceResponse.success("Synonym deleted", null);
     } catch (ex) {
-      const errorMessage = `Error deleting synonym ${synonym}:, ${
-        (ex as Error).message
-      }`;
+      const errorMessage = `Error deleting synonym ${synonym}:, ${(ex as Error).message}`;
       logger.error(errorMessage);
       return ServiceResponse.failure(
         "An error occurred while deleting synonym.",
         null,
-        StatusCodes.INTERNAL_SERVER_ERROR
+        StatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
-  public search(
-    searchTerm: string,
-    req: Request
-  ): ServiceResponse<SynonymGroup[] | null> {
+  public search(searchTerm: string, req: Request): ServiceResponse<SynonymGroup[] | null> {
     try {
       const synonymGroups = this.getSynonymGroupsBySearchTerm(searchTerm, req);
       return ServiceResponse.success("Found synonyms", synonymGroups);
     } catch (ex) {
-      const errorMessage = `Error finding synonyms for ${searchTerm}:, ${
-        (ex as Error).message
-      }`;
+      const errorMessage = `Error finding synonyms for ${searchTerm}:, ${(ex as Error).message}`;
       logger.error(errorMessage);
       return ServiceResponse.failure(
         "An error occurred while seraching for synonyms.",
         null,
-        StatusCodes.INTERNAL_SERVER_ERROR
+        StatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
-  getSynonymGroupsBySearchTerm(
-    searchTerm: string,
-    req: Request
-  ): SynonymGroup[] {
+  getSynonymGroupsBySearchTerm(searchTerm: string, req: Request): SynonymGroup[] {
     if (!req.session?.words) {
       return [];
     }
@@ -190,9 +164,7 @@ class SynonymService {
       return [];
     }
 
-    const res = [...req.session.synonymGroups[req.session.words[word]]].filter(
-      (synonym) => synonym != word
-    );
+    const res = [...req.session.synonymGroups[req.session.words[word]]].filter((synonym) => synonym != word);
 
     return res;
   };
