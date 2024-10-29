@@ -8,25 +8,21 @@ interface Props {
   showForm: boolean;
 }
 
-export default function Search({
-  handleSearch,
-  toggleShowForm,
-  showForm,
-}: Props) {
+export default function Search({ handleSearch, toggleShowForm, showForm }: Props) {
   const find = (e: React.FormEvent<HTMLInputElement>) => {
-    fetch(
-      `${apiUrl}/synonym/search?` +
-        new URLSearchParams({ searchTerm: e.currentTarget.value }).toString(),
-      {
+    if (e.currentTarget.value === "") {
+      handleSearch([]);
+    } else {
+      fetch(`${apiUrl}/synonym/search?${new URLSearchParams({ searchTerm: e.currentTarget.value }).toString()}`, {
         credentials: "include",
-      }
-    )
-      .then((res) => {
-        return res.json();
       })
-      .then((data) => {
-        handleSearch(data.responseObject);
-      });
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          handleSearch(data.responseObject);
+        });
+    }
   };
 
   return (
@@ -49,12 +45,7 @@ export default function Search({
           </svg>
         </div>
 
-        <input
-          className="word-input"
-          type="text"
-          placeholder="Find word"
-          onChange={find}
-        />
+        <input className="word-input" type="text" placeholder="Find word" onChange={find} />
 
         <button
           title="Add new word"

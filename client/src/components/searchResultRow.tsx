@@ -12,14 +12,10 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
   const [rowSynonyms, setRowSynonyms] = useState(synonyms);
 
   const handleDelete = (word: string) => {
-    fetch(
-      `${apiUrl}/synonym/delete?` +
-        new URLSearchParams({ synonym: word }).toString(),
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    ).then((res) => {
+    fetch(`${apiUrl}/synonym/delete?${new URLSearchParams({ synonym: word }).toString()}`, {
+      method: "DELETE",
+      credentials: "include",
+    }).then((res) => {
       if (res.status !== 200) {
         alert("cops!");
       } else {
@@ -34,19 +30,10 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
 
   return (
     <div key={word} className="flex flex-wrap justify-normal pl-12 p-4 gap-2">
-      <SynonymTag
-        key={word + "tag_result"}
-        handleDelete={handleDelete}
-        synonym={word}
-        isMain={true}
-      />
+      <SynonymTag key={word + "tag_result"} handleDelete={handleDelete} synonym={word} isMain={true} />
       <div className="flex justify-around gap-2">
         {rowSynonyms.map((synonym) => (
-          <SynonymTag
-            key={synonym + "tag_result"}
-            handleDelete={handleDelete}
-            synonym={synonym}
-          />
+          <SynonymTag key={synonym + "tag_result"} handleDelete={handleDelete} synonym={synonym} />
         ))}
       </div>
     </div>

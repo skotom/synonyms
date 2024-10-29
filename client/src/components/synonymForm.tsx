@@ -49,11 +49,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       e.currentTarget.value = "";
     }
 
-    if (
-      e.key === "Backspace" &&
-      e.currentTarget.value === "" &&
-      synonyms.length > 0
-    ) {
+    if (e.key === "Backspace" && e.currentTarget.value === "" && synonyms.length > 0) {
       e.preventDefault();
       const newArr = [...synonyms];
       newArr.pop();
@@ -83,8 +79,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
   };
 
   const focusOnInput = (e: React.MouseEvent<HTMLDivElement>) => {
-    const input: HTMLInputElement | null =
-      e.currentTarget.querySelector(".tags-input");
+    const input: HTMLInputElement | null = e.currentTarget.querySelector(".tags-input");
     input?.focus();
   };
 
@@ -92,28 +87,13 @@ export default function SynonymForm({ toggleShowForm }: Props) {
     <div className="flex flex-col gap-2 p-4">
       <div className="relative">
         <label className="input-label">Word</label>
-        <input
-          className="word-input"
-          type="text"
-          value={word}
-          onChange={handleNewWord}
-          autoComplete="off"
-        />
+        <input className="word-input" type="text" value={word} onChange={handleNewWord} autoComplete="off" />
       </div>
 
-      <div
-        className="tag-holder word-input relative cursor-text"
-        onClick={focusOnInput}
-      >
+      <div className="tag-holder word-input relative cursor-text" onClick={focusOnInput}>
         <label className="input-label">Synoynms</label>
         {synonyms.map((tag) => {
-          return (
-            <SynonymTag
-              handleDelete={handleDelete}
-              key={tag + "_tag"}
-              synonym={tag}
-            />
-          );
+          return <SynonymTag handleDelete={handleDelete} key={tag + "_tag"} synonym={tag} />;
         })}
 
         <input
@@ -124,11 +104,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
           onPaste={handlePaste}
           autoComplete="off"
         />
-        <button
-          title="Save"
-          className="round-button h-10 w-10 absolute right-2"
-          onClick={handleSave}
-        >
+        <button title="Save" className="round-button h-10 w-10 absolute right-2" onClick={handleSave}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

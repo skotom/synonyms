@@ -21,32 +21,19 @@ export default function App() {
   };
 
   const removeWord = (word: string) => {
-    setSynonyms([
-      ...synonyms.filter((synonymGroup) => synonymGroup.word != word),
-    ]);
+    setSynonyms([...synonyms.filter((synonymGroup) => synonymGroup.word != word)]);
   };
 
   return (
     <main className="p-4">
-      <Search
-        showForm={showForm}
-        handleSearch={handleSearch}
-        toggleShowForm={toggleShowForm}
-      />
+      <Search showForm={showForm} handleSearch={handleSearch} toggleShowForm={toggleShowForm} />
       {showForm && <SynonymForm toggleShowForm={toggleShowForm} />}
       <div className="p-4">
         {synonyms.map(({ word, synonyms }) => (
-          <SearchResultRow
-            key={`${word}_row`}
-            word={word}
-            synonyms={synonyms}
-            removeWord={removeWord}
-          />
+          <SearchResultRow key={`${word}_row`} word={word} synonyms={synonyms} removeWord={removeWord} />
         ))}
 
-        {!Object.keys(synonyms).length && (
-          <div className="pl-12">No synonyms</div>
-        )}
+        {!Object.keys(synonyms).length && <div className="pl-12">No synonyms</div>}
       </div>
     </main>
   );
