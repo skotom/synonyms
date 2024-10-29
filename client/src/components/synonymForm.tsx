@@ -14,7 +14,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       return;
     }
 
-    fetch(`${apiUrl}/word/save`, {
+    fetch(`${apiUrl}/synonym/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ synonyms: [...synonyms, word] }),

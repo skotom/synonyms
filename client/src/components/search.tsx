@@ -15,7 +15,7 @@ export default function Search({
 }: Props) {
   const find = (e: React.FormEvent<HTMLInputElement>) => {
     fetch(
-      `${apiUrl}/word/search?` +
+      `${apiUrl}/synonym/search?` +
         new URLSearchParams({ searchTerm: e.currentTarget.value }).toString(),
       {
         credentials: "include",

@@ -13,7 +13,7 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
 
   const handleDelete = (word: string) => {
     fetch(
-      `${apiUrl}/word/delete?` +
+      `${apiUrl}/synonym/delete?` +
         new URLSearchParams({ wordToDelete: word }).toString(),
       {
         method: "DELETE",
