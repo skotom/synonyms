@@ -1,4 +1,3 @@
-import { useState } from "react";
 import SynonymTag from "./synonymTag";
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -6,23 +5,22 @@ interface Props {
   word: string;
   synonyms: string[];
   removeWord: (word: string) => void;
+  removeSynonym: (word: string, syonym: string) => void;
 }
 
-export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
-  const [rowSynonyms, setRowSynonyms] = useState(synonyms);
-
-  const handleDelete = (word: string) => {
-    fetch(`${apiUrl}/synonym/delete?${new URLSearchParams({ synonym: word }).toString()}`, {
+export default function SearchResultRow({ word, synonyms, removeWord, removeSynonym }: Props) {
+  const handleDelete = (synonym: string) => {
+    fetch(`${apiUrl}/synonym/delete?${new URLSearchParams({ synonym: synonym }).toString()}`, {
       method: "DELETE",
       credentials: "include",
     }).then((res) => {
       if (res.status !== 200) {
         alert("cops!");
       } else {
-        if (!rowSynonyms.includes(word)) {
-          removeWord(word);
+        if (synonym === word) {
+          removeWord(synonym);
         } else {
-          setRowSynonyms([...rowSynonyms].filter((synonym) => synonym != word));
+          removeSynonym(word, synonym);
         }
       }
     });
@@ -32,7 +30,7 @@ export default function SearchResultRow({ word, synonyms, removeWord }: Props) {
     <div key={word} className="flex flex-wrap justify-normal pl-12 p-4 gap-2">
       <SynonymTag key={word + "tag_result"} handleDelete={handleDelete} synonym={word} isMain={true} />
       <div className="flex justify-around gap-2">
-        {rowSynonyms.map((synonym) => (
+        {synonyms.map((synonym) => (
           <SynonymTag key={synonym + "tag_result"} handleDelete={handleDelete} synonym={synonym} />
         ))}
       </div>
