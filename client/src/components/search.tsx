@@ -1,6 +1,6 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import SynonymGroup from "../types/synoynmGroup";
 import CloseIcon from "./closeIcon";
 import PlusIcon from "./plusIcon";
@@ -9,10 +9,11 @@ interface Props {
   handleSearch: (data: SynonymGroup[]) => void;
   toggleShowForm: () => void;
   showForm: boolean;
+  searchTerm: string;
+  handleSearchTermChange: (newSearchTerm: string) => void;
 }
 
-export default function Search({ handleSearch, toggleShowForm, showForm }: Props) {
-  const [searchTerm, setSearchTerm] = useState("");
+export default function Search({ handleSearch, toggleShowForm, showForm, searchTerm, handleSearchTermChange }: Props) {
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     const searchTerm = e.currentTarget.value;
-    setSearchTerm(searchTerm);
+    handleSearchTermChange(searchTerm);
 
     if (abortControllerRef.current) {
       abortControllerRef.current.abort("Abort because new search started!");
@@ -57,7 +58,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
   };
 
   const clearSearch = () => {
-    setSearchTerm("");
+    handleSearchTermChange("");
     handleSearch([]);
   };
 
@@ -93,7 +94,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
           onChange={handleInputChange}
           value={searchTerm}
         />
-        {searchTerm.length > 0 && (
+        {searchTerm !== "" && (
           <button
             title="Clear"
             className="round-button h-10 w-10 -translate-y-1/2 transform top-1/2 right-14 absolute text-2xl"
@@ -116,7 +117,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-9"
+              className="size-8"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
             </svg>

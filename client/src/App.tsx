@@ -7,6 +7,11 @@ import SynonymGroup from "./types/synoynmGroup";
 export default function App() {
   const [synonyms, setSynonyms] = useState<SynonymGroup[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchTermChange = (newSearchTerm: string) => {
+    setSearchTerm(newSearchTerm);
+  };
 
   const handleSearch = (data: SynonymGroup[]) => {
     setSynonyms(data);
@@ -33,7 +38,13 @@ export default function App() {
 
   return (
     <main className="p-4">
-      <Search showForm={showForm} handleSearch={handleSearch} toggleShowForm={toggleShowForm} />
+      <Search
+        handleSearch={handleSearch}
+        toggleShowForm={toggleShowForm}
+        showForm={showForm}
+        searchTerm={searchTerm}
+        handleSearchTermChange={handleSearchTermChange}
+      />
       {showForm && <SynonymForm toggleShowForm={toggleShowForm} />}
       <div className="p-4">
         {synonyms.map(({ word, synonyms }) => (
@@ -46,7 +57,7 @@ export default function App() {
           />
         ))}
 
-        {!Object.keys(synonyms).length && <div className="pl-12">No synonyms</div>}
+        {searchTerm !== "" && !synonyms.length && <div className="pl-12">No synonyms for {searchTerm}</div>}
       </div>
     </main>
   );
