@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import SynonymTag from "./synonymTag";
+import { toast } from "react-toastify";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
@@ -28,13 +29,16 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ synonyms: [...synonyms, word] }),
       credentials: "include",
-    }).then((res) => {
-      if (res.status !== 200) {
-        alert("Error no!");
-      } else {
+    })
+      .then(() => {
         toggleShowForm();
-      }
-    });
+        toast.success("Saved!");
+        setSynonyms([]);
+        setWord("");
+      })
+      .catch(() => {
+        toast.error("Server error!");
+      });
   };
 
   const handleNewWord = (e: React.FormEvent<HTMLInputElement>) => {
@@ -85,11 +89,17 @@ export default function SynonymForm({ toggleShowForm }: Props) {
   };
 
   const handleSave = () => {
-    if (word != "" && !!synonyms.length) {
-      save(word, synonyms);
-      setSynonyms([]);
-      setWord("");
+    if (word == "") {
+      toast.warning("Word can't be empty");
+      return;
     }
+
+    if (!synonyms.length) {
+      toast.warning("No synonyms!");
+      return;
+    }
+
+    save(word, synonyms);
   };
 
   const handleDelete = (word: string) => {
@@ -154,7 +164,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
             </svg>
           </button>
         )}
-        {newSynonym == "" && !!synonyms.length && (
+        {newSynonym == "" && word != "" && !!synonyms.length && (
           <button title="Save" className="round-button h-10 w-10 absolute right-2" onClick={handleSave}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

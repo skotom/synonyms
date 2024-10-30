@@ -3,6 +3,8 @@ import Search from "./components/search";
 import SynonymForm from "./components/synonymForm";
 import SearchResultRow from "./components/searchResultRow";
 import SynonymGroup from "./types/synoynmGroup";
+import { Slide, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [synonyms, setSynonyms] = useState<SynonymGroup[]>([]);
@@ -59,6 +61,8 @@ export default function App() {
 
         {searchTerm !== "" && !synonyms.length && <div className="pl-12">No synonyms for {searchTerm}</div>}
       </div>
+
+      <ToastContainer autoClose={1000} theme="dark" draggable={true} position="bottom-right" transition={Slide} />
     </main>
   );
 }
