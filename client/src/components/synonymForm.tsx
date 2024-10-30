@@ -10,7 +10,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
   const [synonyms, setSynonyms] = useState<string[]>([]);
   const [newSynonym, setNewSynonym] = useState("");
   const [word, setWord] = useState("");
-  const wordInputRef = useRef<HTMLInputElement | null>();
+  const wordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (wordInputRef?.current) {
