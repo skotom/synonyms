@@ -9,11 +9,7 @@ export default function App() {
   const [showForm, setShowForm] = useState<boolean>(false);
 
   const handleSearch = (data: SynonymGroup[]) => {
-    if (data.length) {
-      setSynonyms(data);
-    } else {
-      setSynonyms([]);
-    }
+    setSynonyms(data);
   };
 
   const toggleShowForm = () => {

@@ -1,6 +1,6 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SynonymGroup from "../types/synoynmGroup";
 import CloseIcon from "./closeIcon";
 import PlusIcon from "./plusIcon";
@@ -13,22 +13,45 @@ interface Props {
 
 export default function Search({ handleSearch, toggleShowForm, showForm }: Props) {
   const [searchTerm, setSearchTerm] = useState("");
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort("Cleanup");
+      }
+    };
+  }, []);
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
     const searchTerm = e.currentTarget.value;
     setSearchTerm(searchTerm);
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort("Abort because new search started!");
+    }
+    const newAbortController = new AbortController();
+    const { signal } = newAbortController;
+
+    abortControllerRef.current = newAbortController;
 
     if (searchTerm === "") {
       handleSearch([]);
     } else {
       fetch(`${apiUrl}/synonym/search?${new URLSearchParams({ searchTerm: searchTerm }).toString()}`, {
         credentials: "include",
+        signal,
       })
         .then((res) => {
           return res.json();
         })
         .then((data) => {
           handleSearch(data.responseObject);
+        })
+        .catch((ex: unknown) => {
+          if (ex instanceof Error) {
+            console.log(ex.message);
+          }
         });
     }
   };
