@@ -6,9 +6,3 @@ export const synonymGroups: SynonymGroup[] = [
     synonyms: ["giant", "huge"],
   },
 ];
-
-export class SynonymGroupRepository {
-  async search(searchTerm: string): Promise<SynonymGroup[] | null> {
-    return synonymGroups.filter((synonmGroup) => synonmGroup.word.startsWith(searchTerm)) || null;
-  }
-}
