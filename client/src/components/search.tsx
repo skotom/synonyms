@@ -1,9 +1,10 @@
-const apiUrl = import.meta.env.VITE_API_URL;
-
 import { useEffect, useRef } from "react";
 import SynonymGroup from "../types/synoynmGroup";
 import CloseIcon from "./closeIcon";
 import PlusIcon from "./plusIcon";
+import { toast } from "react-toastify";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
   handleSearch: (data: SynonymGroup[]) => void;
@@ -19,7 +20,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
-        abortControllerRef.current.abort("Cleanup");
+        abortControllerRef.current.abort("Abort");
       }
     };
   }, []);
@@ -29,7 +30,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
     handleSearchTermChange(searchTerm);
 
     if (abortControllerRef.current) {
-      abortControllerRef.current.abort("Abort because new search started!");
+      abortControllerRef.current.abort("Abort");
     }
     const newAbortController = new AbortController();
     const { signal } = newAbortController;
@@ -49,10 +50,12 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
         .then((data) => {
           handleSearch(data.responseObject);
         })
-        .catch((ex: unknown) => {
-          if (ex instanceof Error) {
-            console.log(ex.message);
+        .catch((err) => {
+          if (err instanceof Error) {
+            toast.error("Server error!");
           }
+          // if (!err.includes("Abort")) {
+          // }
         });
     }
   };

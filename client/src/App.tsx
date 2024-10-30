@@ -62,7 +62,14 @@ export default function App() {
         {searchTerm !== "" && !synonyms.length && <div className="pl-12">No synonyms for {searchTerm}</div>}
       </div>
 
-      <ToastContainer autoClose={1000} theme="dark" draggable={true} position="bottom-right" transition={Slide} />
+      <ToastContainer
+        autoClose={1000}
+        theme="dark"
+        draggable={true}
+        position="bottom-right"
+        transition={Slide}
+        hideProgressBar={true}
+      />
     </main>
   );
 }

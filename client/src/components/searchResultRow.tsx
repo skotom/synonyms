@@ -1,4 +1,6 @@
+import { toast } from "react-toastify";
 import SynonymTag from "./synonymTag";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
@@ -13,17 +15,19 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
     fetch(`${apiUrl}/synonym/delete?${new URLSearchParams({ synonym: synonym }).toString()}`, {
       method: "DELETE",
       credentials: "include",
-    }).then((res) => {
-      if (res.status !== 200) {
-        alert("cops!");
-      } else {
+    })
+      .then(() => {
         if (synonym === word) {
           removeWord(synonym);
         } else {
           removeSynonym(word, synonym);
         }
-      }
-    });
+
+        toast.success("Deleted");
+      })
+      .catch(() => {
+        toast.error("Server error!");
+      });
   };
 
   return (
