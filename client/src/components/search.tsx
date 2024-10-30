@@ -15,15 +15,9 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setSearchTerm(e.currentTarget.value);
-  };
+    const searchTerm = e.currentTarget.value;
+    setSearchTerm(searchTerm);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    search();
-  };
-
-  const search = () => {
     if (searchTerm === "") {
       handleSearch([]);
     } else {
@@ -35,57 +29,57 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
         })
         .then((data) => {
           handleSearch(data.responseObject);
-          clearSearch();
         });
     }
   };
 
   const clearSearch = () => {
     setSearchTerm("");
+    handleSearch([]);
+  };
+
+  const focusOnInput = (e: React.MouseEvent<HTMLDivElement>) => {
+    const input: HTMLInputElement | null = e.currentTarget.querySelector(".tags-input");
+    input?.focus();
   };
 
   return (
     <nav className="p-4 font-semibold">
-      <div className="relative w-full">
-        <form onSubmit={handleSubmit} action="">
-          <button
-            title="Search"
-            type="submit"
-            className="absolute left-2 top-1/2 flex -translate-y-1/2 transform items-center justify-center find-button"
+      <div className="relative word-input group" onClick={focusOnInput}>
+        <div className="absolute left-2 top-1/2 flex -translate-y-1/2 transform items-center justify-center group-hover:text-white group-focus-within:text-white text-[#b3b3b3]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-8"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+            />
+          </svg>
+        </div>
+
+        <input
+          className="tags-input"
+          type="text"
+          placeholder="Find word"
+          onChange={handleInputChange}
+          value={searchTerm}
+        />
+        {searchTerm.length > 0 && (
+          <button
+            title="Clear"
+            className="round-button h-10 w-10 -translate-y-1/2 transform top-1/2 right-14 absolute text-2xl"
+            type="button"
+            onClick={clearSearch}
+          >
+            <CloseIcon />
           </button>
-
-          <input
-            className="word-input"
-            type="text"
-            placeholder="Find word"
-            onChange={handleInputChange}
-            value={searchTerm}
-          />
-        </form>
-
-        <button
-          title="Clear"
-          className="round-button h-10 w-10 -translate-y-1/2 transform top-1/2 right-14 absolute text-2xl"
-          type="button"
-          onClick={clearSearch}
-        >
-          <CloseIcon />
-        </button>
+        )}
         <button
           title="Add new word"
           className="round-button h-10 w-10 -translate-y-1/2 transform top-1/2 right-2 absolute text-2xl"
@@ -99,7 +93,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm }: Props
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-9"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
             </svg>
