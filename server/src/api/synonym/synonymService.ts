@@ -154,7 +154,8 @@ class SynonymService {
       .map((key) => ({
         word: key,
         synonyms: this.getSynonymsForWord(key, req),
-      }));
+      }))
+      .sort((a, b) => a.word.localeCompare(b.word));
 
     return result;
   }
@@ -164,7 +165,9 @@ class SynonymService {
       return [];
     }
 
-    const res = [...req.session.synonymGroups[req.session.words[word]]].filter((synonym) => synonym != word);
+    const res = [...req.session.synonymGroups[req.session.words[word]]]
+      .filter((synonym) => synonym != word)
+      .sort((a, b) => a.localeCompare(b));
 
     return res;
   };
