@@ -66,7 +66,7 @@ export default function App() {
         autoClose={1000}
         theme="dark"
         draggable={true}
-        position="bottom-right"
+        position="top-right"
         transition={Slide}
         hideProgressBar={true}
       />
