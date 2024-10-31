@@ -16,6 +16,7 @@ interface Props {
 
 export default function Search({ handleSearch, toggleShowForm, showForm, searchTerm, handleSearchTermChange }: Props) {
   const abortControllerRef = useRef<AbortController | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     return () => {
@@ -54,8 +55,6 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
           if (err instanceof Error) {
             toast.error("Server error!");
           }
-          // if (!err.includes("Abort")) {
-          // }
         });
     }
   };
@@ -65,14 +64,9 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
     handleSearch([]);
   };
 
-  const focusOnInput = (e: React.MouseEvent<HTMLDivElement>) => {
-    const input: HTMLInputElement | null = e.currentTarget.querySelector(".tags-input");
-    input?.focus();
-  };
-
   return (
     <nav className="p-4 font-semibold">
-      <div className="relative word-input group" onClick={focusOnInput}>
+      <div className="relative word-input group" onClick={() => searchInputRef.current?.focus()}>
         <div className="absolute left-2 top-1/2 flex -translate-y-1/2 transform items-center justify-center group-hover:text-white group-focus-within:text-white text-[#b3b3b3]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +85,8 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
         </div>
 
         <input
-          className="tags-input"
+          ref={searchInputRef}
+          className="inner-input"
           type="text"
           placeholder="Find word"
           onChange={handleInputChange}

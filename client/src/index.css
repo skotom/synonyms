@@ -25,7 +25,7 @@ body {
   @apply flex flex-wrap gap-2 items-center;
 }
 
-.tags-input {
+.inner-input {
   @apply h-full bg-transparent border-none outline-none cursor-pointer focus:cursor-text;
 }
 

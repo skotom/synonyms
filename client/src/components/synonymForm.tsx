@@ -12,14 +12,13 @@ export default function SynonymForm({ toggleShowForm }: Props) {
   const [newSynonym, setNewSynonym] = useState("");
   const [word, setWord] = useState("");
   const wordInputRef = useRef<HTMLInputElement>(null);
+  const tagInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (wordInputRef?.current) {
-      wordInputRef.current.focus();
-    }
+    wordInputRef.current?.focus();
   }, []);
 
-  const save = (word: string, synonyms: string[]) => {
+  const save = () => {
     if (!synonyms.length) {
       return;
     }
@@ -99,16 +98,11 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       return;
     }
 
-    save(word, synonyms);
+    save();
   };
 
   const handleDelete = (word: string) => {
     setSynonyms(synonyms.filter((synonym) => synonym != word));
-  };
-
-  const focusOnInput = (e: React.MouseEvent<HTMLDivElement>) => {
-    const input: HTMLInputElement | null = e.currentTarget.querySelector(".tags-input");
-    input?.focus();
   };
 
   return (
@@ -126,14 +120,15 @@ export default function SynonymForm({ toggleShowForm }: Props) {
         />
       </div>
 
-      <div className="tag-holder word-input relative cursor-text" onClick={focusOnInput}>
+      <div className="tag-holder word-input relative" onClick={() => tagInputRef.current?.focus()}>
         <label className="input-label">Synoynms</label>
         {synonyms.map((tag) => {
           return <SynonymTag handleDelete={handleDelete} key={tag + "_tag"} synonym={tag} />;
         })}
 
         <input
-          className="tags-input"
+          ref={tagInputRef}
+          className="inner-input"
           type="text"
           placeholder=""
           value={newSynonym}
