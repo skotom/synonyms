@@ -30,13 +30,12 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       credentials: "include",
     })
       .then((res) => {
-        return res.json();
-      })
-      .then(() => {
-        toggleShowForm();
-        toast.success("Saved!");
-        setSynonyms([]);
-        setWord("");
+        if (res.status === 200) {
+          toggleShowForm();
+          toast.success("Saved!");
+          setSynonyms([]);
+          setWord("");
+        }
       })
       .catch(() => {
         toast.error("Server error!");

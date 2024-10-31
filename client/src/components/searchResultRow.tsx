@@ -17,16 +17,15 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
       credentials: "include",
     })
       .then((res) => {
-        return res.json();
-      })
-      .then(() => {
-        if (synonym === word) {
-          removeWord(synonym);
-        } else {
-          removeSynonym(word, synonym);
-        }
+        if (res.status === 200) {
+          if (synonym === word) {
+            removeWord(synonym);
+          } else {
+            removeSynonym(word, synonym);
+          }
 
-        toast.success("Deleted");
+          toast.success("Deleted");
+        }
       })
       .catch(() => {
         toast.error("Server error!");
