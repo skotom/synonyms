@@ -29,6 +29,9 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       body: JSON.stringify({ synonyms: [...synonyms, word] }),
       credentials: "include",
     })
+      .then((res) => {
+        return res.json();
+      })
       .then(() => {
         toggleShowForm();
         toast.success("Saved!");

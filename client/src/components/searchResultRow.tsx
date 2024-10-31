@@ -16,6 +16,9 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
       method: "DELETE",
       credentials: "include",
     })
+      .then((res) => {
+        return res.json();
+      })
       .then(() => {
         if (synonym === word) {
           removeWord(synonym);
