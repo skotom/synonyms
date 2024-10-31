@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import SynonymTag from "./synonymTag";
 import { toast } from "react-toastify";
+import { StatusCodes } from "http-status-codes";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
@@ -30,15 +31,19 @@ export default function SynonymForm({ toggleShowForm }: Props) {
       credentials: "include",
     })
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === StatusCodes.OK) {
           toggleShowForm();
           toast.success("Saved!");
           setSynonyms([]);
           setWord("");
+        } else {
+          toast.error("Server error!");
         }
       })
-      .catch(() => {
-        toast.error("Server error!");
+      .catch((err) => {
+        if (err instanceof Error) {
+          toast.error("Network error!");
+        }
       });
   };
 

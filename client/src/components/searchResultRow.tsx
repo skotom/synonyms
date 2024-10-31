@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import SynonymTag from "./synonymTag";
+import { StatusCodes } from "http-status-codes";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -17,7 +18,7 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
       credentials: "include",
     })
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === StatusCodes.OK) {
           if (synonym === word) {
             removeWord(synonym);
           } else {
@@ -25,10 +26,12 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
           }
 
           toast.success("Deleted");
+        } else {
+          toast.error("Server error!");
         }
       })
       .catch(() => {
-        toast.error("Server error!");
+        toast.error("Network error!");
       });
   };
 
