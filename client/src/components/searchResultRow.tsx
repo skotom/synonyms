@@ -37,10 +37,10 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
 
   return (
     <div key={word} className="flex flex-wrap justify-normal pl-12 p-4 gap-2">
-      <SynonymTag key={word + "tag_result"} handleDelete={handleDelete} synonym={word} isMain={true} />
+      <SynonymTag key={`${word}_main`} handleDelete={handleDelete} synonym={word} isMain={true} />
       <div className="flex flex-wrap justify-start gap-2">
         {synonyms.map((synonym) => (
-          <SynonymTag key={synonym + "tag_result"} handleDelete={handleDelete} synonym={synonym} />
+          <SynonymTag key={`${word}_${synonym}_tag`} handleDelete={handleDelete} synonym={synonym} />
         ))}
       </div>
     </div>
