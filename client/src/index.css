@@ -17,8 +17,8 @@ body {
 .word-input {
   @apply w-full min-h-20 rounded-2xl hover:ring-1 hover:ring-[#434243]  p-6 pl-12 pr-12 hover-bg
   focus-within:ring-2 focus-within:ring-white outline-none cursor-pointer focus:cursor-text 
-  hover:focus-within:ring-2 hover:focus-within:ring-white
-  placeholder-[#b3b3b3] font-normal text-white;
+  hover:focus-within:ring-2 hover:focus-within:ring-white placeholder-[#b3b3b3] font-normal text-white
+  transition-all;
 }
 
 .tag-holder {
