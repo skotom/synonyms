@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { StatusCodes } from "http-status-codes";
 import CloudIcon from "./icons/cloudIcon";
 import MinusIcon from "./icons/minusIcon";
+import PlusIcon from "./icons/plusIcon";
+import PlusCircleIcon from "./icons/plusCircleIcon";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
@@ -152,7 +154,7 @@ export default function SynonymForm({ toggleShowForm }: Props) {
             className="round-button h-10 w-10 right-2 absolute text-2xl"
             onClick={addNewSynonym}
           >
-            <MinusIcon />
+            <PlusCircleIcon />
           </button>
         )}
         {newSynonym == "" && word != "" && !!synonyms.length && (
