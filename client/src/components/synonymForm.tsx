@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import SynonymTag from "./synonymTag";
 import { toast } from "react-toastify";
 import { StatusCodes } from "http-status-codes";
+import CloudIcon from "./icons/cloudIcon";
+import MinusIcon from "./icons/minusIcon";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface Props {
@@ -150,38 +152,12 @@ export default function SynonymForm({ toggleShowForm }: Props) {
             className="round-button h-10 w-10 right-2 absolute text-2xl"
             onClick={addNewSynonym}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
+            <MinusIcon />
           </button>
         )}
         {newSynonym == "" && word != "" && !!synonyms.length && (
           <button title="Save" className="round-button h-10 w-10 absolute right-2" onClick={handleSave}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
-              />
-            </svg>
+            <CloudIcon />
           </button>
         )}
       </div>

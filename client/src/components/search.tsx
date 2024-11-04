@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import SynonymGroup from "../types/synoynmGroup";
-import CloseIcon from "./closeIcon";
-import PlusIcon from "./plusIcon";
+import CloseIcon from "./icons/closeIcon";
+import PlusIcon from "./icons/plusIcon";
 import { toast } from "react-toastify";
+import SearchIcon from "./icons/searchIcon";
+import MinusIcon from "./icons/minusIcon";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -68,20 +70,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
     <nav className="p-4 font-semibold">
       <div className="relative word-input group" onClick={() => searchInputRef.current?.focus()}>
         <div className="absolute left-2 top-1/2 flex -translate-y-1/2 transform items-center justify-center group-hover:text-white group-focus-within:text-white text-[#b3b3b3]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
+          <SearchIcon />
         </div>
 
         <input
@@ -108,20 +97,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
           type="button"
           onClick={toggleShowForm}
         >
-          {showForm ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-8"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-            </svg>
-          ) : (
-            <PlusIcon />
-          )}
+          {showForm ? <MinusIcon /> : <PlusIcon />}
         </button>
       </div>
     </nav>

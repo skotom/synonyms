@@ -1,4 +1,4 @@
-import CloseIcon from "./closeIcon";
+import CloseIcon from "./icons/closeIcon";
 
 interface Props {
   synonym: string;
