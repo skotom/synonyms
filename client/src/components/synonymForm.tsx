@@ -3,8 +3,6 @@ import SynonymTag from "./synonymTag";
 import { toast } from "react-toastify";
 import { StatusCodes } from "http-status-codes";
 import CloudIcon from "./icons/cloudIcon";
-import MinusIcon from "./icons/minusIcon";
-import PlusIcon from "./icons/plusIcon";
 import PlusCircleIcon from "./icons/plusCircleIcon";
 const apiUrl = import.meta.env.VITE_API_URL;
 
