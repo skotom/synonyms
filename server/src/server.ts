@@ -12,6 +12,8 @@ const logger = pino({ name: "server start" });
 
 const app: Application = express();
 
+const DAY_IN_MILISECONDS: number = 24 * 60 * 60 * 1000;
+
 app.use(
   session({
     genid: function () {
@@ -20,6 +22,9 @@ app.use(
     secret: env.SECRET,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      maxAge: DAY_IN_MILISECONDS,
+    },
   }),
 );
 
