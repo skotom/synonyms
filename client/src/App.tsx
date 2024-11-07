@@ -23,19 +23,15 @@ export default function App() {
     setShowForm(!showForm);
   };
 
-  const removeWord = (word: string) => {
-    setSynonyms([...synonyms.filter((synonymGroup) => synonymGroup.word != word)]);
-  };
+  const removeSynonym = (synonymToRemove: string) => {
+    const clearedSynonyms = [
+      ...synonyms.map((synonymGroup) => ({
+        word: synonymGroup.word,
+        synonyms: synonymGroup.synonyms.filter((synonym) => synonym != synonymToRemove),
+      })),
+    ];
 
-  const removeSynonym = (word: string, synonymToRemove: string) => {
-    const synonymGroup = synonyms.find((synonymGroup) => synonymGroup.word == word);
-
-    if (synonymGroup) {
-      setSynonyms([
-        ...synonyms.filter((synonymGroup) => synonymGroup.word != word),
-        { word: word, synonyms: [...synonymGroup.synonyms.filter((synonym) => synonym != synonymToRemove)] },
-      ]);
-    }
+    setSynonyms(clearedSynonyms.filter((synonymGroup) => synonymGroup.word != synonymToRemove));
   };
 
   return (
@@ -50,13 +46,7 @@ export default function App() {
       {showForm && <SynonymForm toggleShowForm={toggleShowForm} />}
       <div className="p-4">
         {synonyms.map(({ word, synonyms }) => (
-          <SearchResultRow
-            key={`${word}_row`}
-            word={word}
-            synonyms={synonyms}
-            removeWord={removeWord}
-            removeSynonym={removeSynonym}
-          />
+          <SearchResultRow key={`${word}_row`} word={word} synonyms={synonyms} removeSynonym={removeSynonym} />
         ))}
 
         {searchTerm !== "" && !synonyms.length && <div className="pl-12">No synonyms for {searchTerm}</div>}

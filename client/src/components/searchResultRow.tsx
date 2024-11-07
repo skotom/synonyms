@@ -7,11 +7,10 @@ const apiUrl = import.meta.env.VITE_API_URL;
 interface Props {
   word: string;
   synonyms: string[];
-  removeWord: (word: string) => void;
   removeSynonym: (word: string, syonym: string) => void;
 }
 
-export default function SearchResultRow({ word, synonyms, removeWord, removeSynonym }: Props) {
+export default function SearchResultRow({ word, synonyms, removeSynonym }: Props) {
   const handleDelete = (synonym: string) => {
     fetch(`${apiUrl}/synonym/delete?${new URLSearchParams({ synonym: synonym }).toString()}`, {
       method: "DELETE",
@@ -19,11 +18,7 @@ export default function SearchResultRow({ word, synonyms, removeWord, removeSyno
     })
       .then((res) => {
         if (res.status === StatusCodes.OK) {
-          if (synonym === word) {
-            removeWord(synonym);
-          } else {
-            removeSynonym(word, synonym);
-          }
+          removeSynonym(synonym);
 
           toast.success("Deleted");
         } else {
