@@ -7,7 +7,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 interface Props {
   word: string;
   synonyms: string[];
-  removeSynonym: (word: string, syonym: string) => void;
+  removeSynonym: (syonym: string) => void;
 }
 
 export default function SearchResultRow({ word, synonyms, removeSynonym }: Props) {
