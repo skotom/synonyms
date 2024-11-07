@@ -54,7 +54,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
           handleSearch(data.responseObject);
         })
         .catch((err) => {
-          if (err instanceof Error) {
+          if (err instanceof Error && err.name !== "AbortError") {
             toast.error("Server error!");
           }
         });
@@ -75,7 +75,7 @@ export default function Search({ handleSearch, toggleShowForm, showForm, searchT
 
         <input
           ref={searchInputRef}
-          className="inner-input"
+          className="inner-input w-full pr-12"
           type="text"
           placeholder="Find word"
           onChange={handleInputChange}
